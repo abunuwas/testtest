@@ -1,7 +1,15 @@
-#from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
-# Create your views here.
+from . import models
+
+
 def index(request):
-    return 'hey'
-
+    placement = models.Placement.objects.all()[0]
+    return JsonResponse({
+        'status': placement.status,
+        'Reference': placement.reference,
+        'Company':  placement.company.name,
+        'Candidate': placement.candidate.first_name,
+        'Start': placement.start_date,
+        'End': placement.end_date
+    })
