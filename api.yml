@@ -1,0 +1,195 @@
+swagger: "2.0"
+info:
+  title: Riser API specification
+  version: v1
+host: members.riser.work
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /:
+    get:
+      summery: Dashboard with summery of user activity
+      responses:
+        "200":
+          description: An object with summery of recent user activity
+          headers:
+          schema:
+            $ref: '#/definitions/Activity'
+
+        default:
+          description: unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Activity:
+  Error:
+    required:
+      - code
+      - message
+
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+
+  Placement:
+    required:
+      - submitted
+      - status
+      - reference
+      - company
+      - candidate
+      - start
+      - end
+    properties:
+      submitted:
+        type: iso date
+      status:
+        type: string
+        choices: accepted | declined | pending
+      reference:
+        type: integer
+        description: unique
+      company:
+        type: string
+      candidate:
+        type: string
+        description: first name and last name
+      start:
+        type: iso date
+      end:
+        type: iso date
+      po_number:
+        type: integer
+        description: unique
+  Invoice:
+    required:
+      - submitted
+      - reference
+      - link
+      - client
+      - candidate
+    properties:
+      submitted:
+        type: iso date
+      reference:
+        type: integer
+        description: unique
+      link:
+        type: string
+        description: url
+      client:
+        type: string
+      candidate:
+        type: string
+        description: first name and last name
+  Payment:
+    required:
+      - due_from_client
+      - due_to_riser
+      - due_to_candidate
+      - status
+      - reference
+      - due_date
+    properties:
+      due_from_client:
+        type: float
+      due_to_riser:
+        type: float
+      due_to_candidate:
+        type: float
+      status:
+        type: string
+        choices: paid | due | overdue
+      reference:
+        type: integer
+        description: unique
+      due_date:
+        type: iso date
+  Candidate:
+    required:
+      - first_name
+      - last_name
+      - email
+      - password
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      email:
+        type: string
+        description: valid email
+      password:
+        type: string
+        description: encoded
+      birth_date:
+        type: iso date
+      nationality:
+        type: string
+      mobile_number:
+        type: string
+        description: with country code
+      home_number:
+        type: string
+        description: with country code
+      address:
+        type: string
+        description: including house number or name
+      address_postcode:
+        type: string
+      address_country:
+        type: string
+      job_title:
+        type: string
+      curiculum_vitae:
+        type: string
+        description: url
+      company_name:
+        type: string
+      company_type:
+        type: string
+        choices: LTD | umbrella | self_employed
+      company_registration:
+        type: string
+      company_vat_number:
+        type: string
+      company_address:
+        type: $ref: '#/definitions/Address'
+      company_telephone_number:
+        type: string
+        description: including country code
+      skills:
+        type: $ref: '#/definitions/Skill'
+  CompanyClient:
+    required:
+      - name
+      - telephone
+      - recruiting_manager
+    properties:
+      name:
+      telephone:
+      recruiting_manager:
+      vat_number:
+      registration_number:
+      trading_address:
+      registared_address:
+      invoice_address:
+      timesheet_authrizer:
+      invoice_contact:
+      
+
+
+
+
+
+
+
+
+
