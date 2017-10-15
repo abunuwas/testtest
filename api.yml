@@ -12,7 +12,7 @@ produces:
 paths:
   /:
     get:
-      summery: Dashboard with summery of user activity
+      summary: Dashboard with summery of user activity
       responses:
         "200":
           description: An object with summery of recent user activity
@@ -24,6 +24,71 @@ paths:
           description: unexpected Error
           schema:
             $ref: '#/definitions/Error'
+
+  /placements:
+    get:
+      summary: View to handle placements.
+      headers:
+      responses:
+        "200":
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Placement'
+    post:
+      summary: Creates a new placement resource.
+      headers:
+      requestBody:
+        content:
+          schema:
+            $ref: '#/definitions/Placement'
+      responses:
+        "201":
+          schema:
+            $ref: '#/definitions/Placement'
+
+  /placement/{placement_id}:
+    get:
+      summary: Returns the view of one placement.
+      responses:
+        "200":
+        "403":
+          description: Returned when user tries to access a placement not their own.
+    put:
+      summary: Updates a specific placement.
+      headers:
+      requestBody:
+        content:
+          schema:
+            $ref: '#/definitions/Placement'
+      responses:
+        "200":
+          schema:
+            $ref: '#/definitions/Placement'
+    delete:
+      summary: Deletes a specific placement.
+      headers:
+      reponses:
+        "200":
+
+  /recruiting:
+
+  /payments:
+  /payment/{payment_id}:
+
+  /invoincing:
+  /invoince/{invoice_id}:
+
+  /timesheets:
+  /timesheet/{timesheet_id}:
+
+  /boolean:
+
+  /companies_client:
+  /company_client/{company_id}:
+
+  /candidates:
+  /candidate/{candidate_id}:
 
 definitions:
   Activity:
@@ -183,13 +248,6 @@ definitions:
       invoice_address:
       timesheet_authrizer:
       invoice_contact:
-      
-
-
-
-
-
-
-
-
+  Timesheet:
+    required:
 
