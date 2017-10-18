@@ -91,7 +91,8 @@ paths:
   /candidate/{candidate_id}:
 
 definitions:
-  Activity:
+  Activity: # WTF is this??
+
   Error:
     required:
       - code
@@ -133,6 +134,7 @@ definitions:
       po_number:
         type: integer
         description: unique
+
   Invoice:
     required:
       - submitted
@@ -154,6 +156,7 @@ definitions:
       candidate:
         type: string
         description: first name and last name
+
   Payment:
     required:
       - due_from_client
@@ -177,6 +180,8 @@ definitions:
         description: unique
       due_date:
         type: iso date
+      payment_proof: # like a document, digital validation code or something, would this be needed?
+
   Candidate:
     required:
       - first_name
@@ -205,12 +210,8 @@ definitions:
         type: string
         description: with country code
       address:
-        type: string
-        description: including house number or name
-      address_postcode:
-        type: string
-      address_country:
-        type: string
+        type:
+          $ref: '#/definitions/Address'
       job_title:
         type: string
       curiculum_vitae:
@@ -226,12 +227,15 @@ definitions:
       company_vat_number:
         type: string
       company_address:
-        type: $ref: '#/definitions/Address'
+        type:
+          $ref: '#/definitions/Address'
       company_telephone_number:
         type: string
         description: including country code
       skills:
-        type: $ref: '#/definitions/Skill'
+        type:
+          $ref: '#/definitions/Skill'
+
   CompanyClient:
     required:
       - name
@@ -239,15 +243,97 @@ definitions:
       - recruiting_manager
     properties:
       name:
+        type: string
+        description: full registered name of the company.
       telephone:
+        type: string
+        description: including country code.
       recruiting_manager:
+        type:
+          $ref: '#/definitions/GenericUser'
       vat_number:
+        type: string
       registration_number:
+        type: string
       trading_address:
+        $ref: '#/definitions/Address'
       registared_address:
+        $ref: '#/definitions/Address'
       invoice_address:
+        $ref: '#/definitions/Address'
       timesheet_authrizer:
-      invoice_contact:
-  Timesheet:
-    required:
+        $ref: '#/definitions/GenericUser'
+      invoice_contact: # WTF is this??
 
+  Timesheet:
+    type: array
+    items:
+      $ref: '#/definitions/TimesheetDay'
+
+  TimesheetDay:
+    required:
+      - date
+      - week_day
+      - start_time
+      - end_time
+      - breaks
+      - total_hours
+    properties:
+      date:
+        type: iso date
+      week_day:
+        type: string
+        description: day of the week
+      start_time:
+        type: string
+        description: hour and minute when working day started (in UTC converted by client code?). Format: 00:00-23:59.
+      end_time:
+        type: string
+        description: hour and minute when working day ended (in UTC converted by client code?). Format: 00:00-23:59.
+      breaks:
+        type: string
+        description: hours and minutes of break, e.g. for lunch.
+      total_hours:
+        type: float
+        string: total amount of hours worked in the day (calculated by client code).
+
+  Address:
+    required:
+      - country
+      # we may need to refactor the country plus county/state stuff,
+      # and allow for different kinds of subdivisions (state, county,
+      # autonomous community, etc.) depending on the country, and whether
+      # it is truly relevant or not.
+      - county_state
+      - city
+      - post_code
+      - address_line
+    properties:
+      country:
+        type: string
+      county_state:
+        type: string
+        description: only when relevant.
+      post_code:
+        type: string
+      address_line:
+        type: string
+        description: full address of the house, including house number or name, and floor if required by the country.
+
+  GenericUser:
+    required:
+      - first_name
+      - last_name
+      - email
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      email:
+        type: string
+      job_title:
+        type: string
+      contact_number:
+        type: string
+        description: including country code.
