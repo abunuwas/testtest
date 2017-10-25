@@ -17,5 +17,6 @@ script:
   - python manage.py test
 
 after_success:
+  - echo $(pwd)
   - cd .. && "./deploy.sh"
 
