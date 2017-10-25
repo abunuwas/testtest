@@ -2,11 +2,18 @@ language: python
 python:
   - '3.5'
 
+services: postgresql
+
 intsall: 
   - pip install -r requirements.txt
 
+before_script:
+  - psql -c "create user riser with password 'riser';"
+  - psql -c "alter user riser createdb;"
+
 script:
   - cd riser && python manage.py migrate
+  - python manage.py test
 
 after_success:
   - git tag success
