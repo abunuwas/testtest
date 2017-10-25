@@ -1,0 +1,14 @@
+language: python
+python:
+  - '3.5'
+
+intsall: 
+  - pip install -r requirements.txt
+
+script:
+  - cd riser && python manage.py migrate
+
+after_success:
+  - git tag success
+  - git push origin success 
+
