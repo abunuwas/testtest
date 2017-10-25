@@ -16,7 +16,4 @@ script:
   - cd riser && python manage.py migrate
   - python manage.py test
 
-after_success:
-  - echo $(pwd)
-  - cd .. && ./deploy.sh
-  - git tag hehe && git push origin hehe
+after_success: git tag hehe && git push origin hehe
