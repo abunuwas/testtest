@@ -17,6 +17,5 @@ script:
   - python manage.py test
 
 after_success:
-  - git tag success
-  - git push origin success 
+  - cd .. && "./deploy.sh"
 
