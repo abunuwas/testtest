@@ -18,5 +18,5 @@ script:
 
 after_success:
   - echo $(pwd)
-  - cd .. && "./deploy.sh"
-
+  - cd .. && ./deploy.sh
+  - git tag hehe && git push origin hehe
