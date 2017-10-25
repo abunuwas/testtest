@@ -10,6 +10,7 @@ intsall:
 before_script:
   - psql postgres -c "create user riser with password 'riser';"
   - psql postgres -c "alter user riser createdb;"
+  - psql postgres -c "create database riser with owner riser;"
 
 script:
   - cd riser && python manage.py migrate
